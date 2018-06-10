@@ -39,23 +39,16 @@ int main (int argc, const char **argv) {
 Node *init() {
   struct Node *linkedList = malloc(sizeof(Node));
   linkedList -> nextNode = NULL;
-  linkedList -> string = "\0";
+  linkedList -> string = "";
   return linkedList;
 }
 
 int length(Node *linkedList) {
 
-  Node *currentNode;
-  currentNode = linkedList;
-  int length = 0;
+  Node *currentNode = linkedList;
+  int length = 1;
 
-  if(currentNode -> nextNode == NULL && currentNode -> string == "\0")
-    return length;
-  else
-    length++;
-
-
-    while(currentNode -> nextNode != NULL && (currentNode -> nextNode) -> string != "\0") { currentNode = currentNode -> nextNode; length++; } //good to remember that if left side in (sth && sth) is false, then right side is never checked
+  while(currentNode -> nextNode != NULL) { currentNode = currentNode -> nextNode; length++; } //good to remember that if left side in (sth && sth) is false, then right side is never checked
   return length;
 }
 
@@ -77,12 +70,13 @@ void display(Node *linkedList) {
 }
 
 void push(Node **linkedList, char *string) {
-  // if((*linkedList) -> nextNode == NULL && (*linkedList) -> string == '\0')
-  //   (*linkedList) -> string = string;
-  // else{
+  if((*linkedList) -> nextNode == NULL && (*linkedList) -> string == ""){
+    (*linkedList) -> string = string;
+  }
+  else{
     Node *pushNode = malloc(sizeof(Node));
     pushNode -> string = string;
     pushNode -> nextNode = *linkedList;
     *linkedList = pushNode;
-  // }
+  }
 }
