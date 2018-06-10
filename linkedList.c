@@ -14,7 +14,7 @@ char *pop(Node *);
 void destroy(Node *);
 void append(Node *, char *);
 //copy
-//reverse
+void reverse(Node **);
 //sort
 
 
@@ -34,7 +34,8 @@ int main (int argc, const char **argv) {
   push(&testNode, "test2");
   push(&testNode, "test3");
   append(testNode, "test4");
-  printf("taken: %s\n", pop(testNode));
+  //printf("taken: %s\n", pop(testNode));
+  //reverse(&testNode);
   display(testNode);
   destroy(testNode);
   return 0;
@@ -137,4 +138,18 @@ void append(Node *linkedList, char *string){
   newNode -> string = string;
 
   currentNode -> nextNode = newNode;
+}
+
+//copy
+
+void reverse(Node **linkedList){
+  Node *currentNode = *linkedList, *previous = NULL, *next = NULL;
+
+  while(currentNode != NULL){
+    next = currentNode -> nextNode;
+    currentNode -> nextNode = previous;
+    previous = currentNode;
+    currentNode = next;
+  }
+  *linkedList = previous;
 }
