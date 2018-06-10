@@ -15,13 +15,11 @@ void push(Node **, char *);
 
 int main (int argc, const char **argv) {
   Node *testNode = init();
-  testNode -> string = "test";
+  //testNode -> string = "test";
 
   push(&testNode, "test222");
-  if(testNode -> nextNode != NULL)
-    printf("STR: %s\n", testNode -> nextNode -> string);
-  else
-    printf("NULLL\n");
+
+  push(&testNode, "test2352");
   display(testNode);
 
   free(testNode -> nextNode);
@@ -29,6 +27,13 @@ int main (int argc, const char **argv) {
 
   return 0;
 }
+
+
+
+
+
+
+
 
 
 Node *init() {
@@ -49,8 +54,8 @@ int length(Node *linkedList) {
   else
     length++;
 
-  while(currentNode -> nextNode != NULL) { currentNode = currentNode -> nextNode; length++; }
 
+    while(currentNode -> nextNode != NULL && (currentNode -> nextNode) -> string != "\0") { currentNode = currentNode -> nextNode; length++; } //good to remember that if left side in (sth && sth) is false, then right side is never checked
   return length;
 }
 
@@ -72,8 +77,12 @@ void display(Node *linkedList) {
 }
 
 void push(Node **linkedList, char *string) {
-  Node *pushNode = malloc(sizeof(Node));
-  pushNode -> string = string;
-  pushNode -> nextNode = *linkedList;
-  *linkedList = pushNode;
+  // if((*linkedList) -> nextNode == NULL && (*linkedList) -> string == '\0')
+  //   (*linkedList) -> string = string;
+  // else{
+    Node *pushNode = malloc(sizeof(Node));
+    pushNode -> string = string;
+    pushNode -> nextNode = *linkedList;
+    *linkedList = pushNode;
+  // }
 }
