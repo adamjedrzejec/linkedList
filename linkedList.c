@@ -10,16 +10,21 @@ Node *init();
 int length(Node *);
 void display(Node *);
 void push(Node **, char *);
-
+//pop
+void destroy(Node *);
+//append
+//copy
+//reverse
+//sort
 
 
 int main (int argc, const char **argv) {
   Node *testNode = init();
   //testNode -> string = "test";
 
-  push(&testNode, "test222");
+  //push(&testNode, "test222");
 
-  push(&testNode, "test2352");
+  //push(&testNode, "test2352");
   display(testNode);
 
   free(testNode -> nextNode);
@@ -77,12 +82,16 @@ void display(Node *linkedList) {
 }
 
 void push(Node **linkedList, char *string) {
-  // if((*linkedList) -> nextNode == NULL && (*linkedList) -> string == '\0')
-  //   (*linkedList) -> string = string;
-  // else{
+   if((*linkedList) -> nextNode == NULL && (*linkedList) -> string == "")
+     (*linkedList) -> string = string;
+   else{
     Node *pushNode = malloc(sizeof(Node));
     pushNode -> string = string;
     pushNode -> nextNode = *linkedList;
     *linkedList = pushNode;
-  // }
+   }
+}
+
+void destroy(Node * d){
+
 }
