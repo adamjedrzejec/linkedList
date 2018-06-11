@@ -173,15 +173,23 @@ void reverse(Node **linkedList){
 void sort(Node **linkedList){
   Node *currentNode = *linkedList;
   int i, j;
-  
+  //char *currentLowerCaseString, *nextLowerCaseString;
+
   for(i = 0; i < length(*linkedList) - 1; i++){
     currentNode = *linkedList;
+
     for(j = 0; j < length(*linkedList) - i - 1; j++){
-      if(strcmp(currentNode -> string, currentNode -> nextNode -> string) == 1){
+
+      char *currentLowerCaseString = strlwr(currentNode -> string);
+      char *nextLowerCaseString = strlwr(currentNode -> nextNode -> string);
+
+      if(strcmp(currentLowerCaseString, nextLowerCaseString) == 1){
         char *temporaryString = currentNode -> string;
         currentNode -> string = currentNode -> nextNode -> string;
         currentNode -> nextNode -> string = temporaryString;
       }
+      free(nextLowerCaseString);
+      free(currentLowerCaseString);
       currentNode = currentNode -> nextNode;
     }
   }
