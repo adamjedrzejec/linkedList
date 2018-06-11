@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 typedef struct Node{
   char *string;
@@ -15,11 +17,24 @@ void destroy(Node *);
 void append(Node *, char *);
 //copy
 void reverse(Node **);
-//sort
-
+void sort(Node **);
+char *strlwr(char *);
 
 int main (int argc, const char **argv) {
-  Node *testNode = init();
+  char *str = strlwr("Wojciech Suchodolski");
+  printf("%s\n",str);
+  free(str);
+  Node *list = init();
+  push(&list, "pan prezydent");
+  append(list, "Wojciech Suchodolski");
+  append(list, "obiad z MOPSu");
+  push(&list, "szkolna 17");
+  sort(&list);
+  //reverse(&list);
+  display(list);
+  destroy(list);
+
+  /*Node *testNode = init();
   testNode -> string = "test";
 
   push(&testNode, "test222");
@@ -30,14 +45,15 @@ int main (int argc, const char **argv) {
   printf("\n\n");
 
   testNode = init();
-  push(&testNode, "test1");
-  push(&testNode, "test2");
-  push(&testNode, "test3");
-  append(testNode, "test4");
+  push(&testNode, "a");
+  push(&testNode, "b");
+  push(&testNode, "c");
+  append(testNode, "d");
   //printf("taken: %s\n", pop(testNode));
   //reverse(&testNode);
+  sort(&testNode);
   display(testNode);
-  destroy(testNode);
+  destroy(testNode);*/
   return 0;
 }
 
@@ -152,4 +168,35 @@ void reverse(Node **linkedList){
     currentNode = next;
   }
   *linkedList = previous;
+}
+
+void sort(Node **linkedList){
+  Node *currentNode = *linkedList;
+  int i, j;
+  
+  for(i = 0; i < length(*linkedList) - 1; i++){
+    currentNode = *linkedList;
+    for(j = 0; j < length(*linkedList) - i - 1; j++){
+      if(strcmp(currentNode -> string, currentNode -> nextNode -> string) == 1){
+        char *temporaryString = currentNode -> string;
+        currentNode -> string = currentNode -> nextNode -> string;
+        currentNode -> nextNode -> string = temporaryString;
+      }
+      currentNode = currentNode -> nextNode;
+    }
+  }
+}
+
+
+char *strlwr(char *str){
+  char *output = strdup(str);
+  char *actualPosition = output;
+
+  while(*actualPosition){
+    if(isupper(*actualPosition))
+      *actualPosition += 32; // 32 as the difference between upper and lower case in ASCII
+    actualPosition++;
+    }
+
+  return output;
 }
