@@ -15,50 +15,32 @@ void push(Node **, char *);
 char *pop(Node *);
 void destroy(Node *);
 void append(Node *, char *);
-//copy
+Node *copy(Node *);
 void reverse(Node **);
 void sort(Node **);
 char *strlwr(char *);
 
 int main (int argc, const char **argv) {
-  char *str = strlwr("Wojciech Suchodolski");
-  printf("%s\n",str);
-  free(str);
+  // char *str = strlwr("Wojciech Suchodolski");
+  // printf("%s\n",str);
+  // free(str);
   Node *list = init();
   push(&list, "pan prezydent");
   append(list, "Wojciech Suchodolski");
+  Node *duplicate = copy(list);
   append(list, "obiad z MOPSu");
   push(&list, "szkolna 17");
+  append(list, "afera płotowa");
   sort(&list);
-  //reverse(&list);
+  reverse(&list);
   display(list);
   destroy(list);
 
-  /*Node *testNode = init();
-  testNode -> string = "test";
+  display(duplicate);
+  destroy(duplicate);
 
-  push(&testNode, "test222");
-  push(&testNode, "test2352");
-  display(testNode);
-  destroy(testNode);
-
-  printf("\n\n");
-
-  testNode = init();
-  push(&testNode, "a");
-  push(&testNode, "b");
-  push(&testNode, "c");
-  append(testNode, "d");
-  //printf("taken: %s\n", pop(testNode));
-  //reverse(&testNode);
-  sort(&testNode);
-  display(testNode);
-  destroy(testNode);*/
   return 0;
 }
-
-
-
 
 
 
@@ -121,17 +103,13 @@ char *pop(Node *linkedList){
   if(currentNode -> nextNode != NULL)
     while((currentNode -> nextNode) -> nextNode != NULL){ currentNode = currentNode -> nextNode; }
 
-  //if(currentNode -> nextNode != NULL){ // if linkedList is bigger than 1 element long, then currentNode is set on penultimate node
-    temporaryNode = currentNode;
-    currentNode = currentNode -> nextNode; // setting currentNode on last position
-    temporaryNode -> nextNode = NULL;
-  //}
+  temporaryNode = currentNode;
+  currentNode = currentNode -> nextNode; // setting currentNode on last position
+  temporaryNode -> nextNode = NULL;
 
-  //if(currentNode -> nextNode == NULL){
-    stringToReturn = currentNode -> string;
-    free(currentNode);
-    return stringToReturn;
-  //}
+  stringToReturn = currentNode -> string;
+  free(currentNode);
+  return stringToReturn;
 }
 
 void destroy(Node *linkedList){
@@ -146,17 +124,29 @@ void destroy(Node *linkedList){
 }
 
 void append(Node *linkedList, char *string){
-  Node *currentNode = linkedList, *newNode = malloc(sizeof(Node));
-
-  while(currentNode -> nextNode != NULL) { currentNode = currentNode -> nextNode; }
-
-  newNode -> nextNode = NULL;
-  newNode -> string = string;
-
-  currentNode -> nextNode = newNode;
+  if((linkedList) -> nextNode == NULL && (linkedList) -> string == ""){
+    (linkedList) -> string = string;
+  }
+  else{
+    Node *currentNode = linkedList, *newNode = malloc(sizeof(Node));
+    while(currentNode -> nextNode != NULL) { currentNode = currentNode -> nextNode; }
+    newNode -> nextNode = NULL;
+    newNode -> string = string;
+    currentNode -> nextNode = newNode;
+  }
 }
 
-//copy
+Node *copy(Node *linkedList){
+  Node *currentNode = linkedList;
+  Node *copiedList = init();
+
+  while(currentNode){
+    append(copiedList, currentNode -> string);
+    currentNode = currentNode -> nextNode;
+  }
+
+  return copiedList;
+}
 
 void reverse(Node **linkedList){
   Node *currentNode = *linkedList, *previous = NULL, *next = NULL;
@@ -173,7 +163,6 @@ void reverse(Node **linkedList){
 void sort(Node **linkedList){
   Node *currentNode = *linkedList;
   int i, j;
-  //char *currentLowerCaseString, *nextLowerCaseString;
 
   for(i = 0; i < length(*linkedList) - 1; i++){
     currentNode = *linkedList;
